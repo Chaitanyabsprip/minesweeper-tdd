@@ -17,4 +17,4 @@ good-names=x,y
 max-line-length=81
 
 [DESIGN]
-max-args=3
+max-args=4

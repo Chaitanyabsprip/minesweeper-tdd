@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Board:
+class Dimension:
     number_of_columns: int
     number_of_rows: int
 
