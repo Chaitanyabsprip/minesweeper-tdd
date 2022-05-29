@@ -16,11 +16,12 @@ class TestGeneratePositionOfMines:
             dimension = Dimension(1, 1)
             Level(dimension, number_of_mines=3)
 
-    def test_shouldnt_raise_assertion_error_when_number_of_mines_is_1_in_1x1_board(
+    def test_should_raise_assertion_error_when_number_of_mines_is_1_in_1x1_board(
         self,
     ):
-        dimension = Dimension(1, 1)
-        Level(dimension, number_of_mines=1)
+        with pytest.raises(AssertionError):
+            dimension = Dimension(1, 1)
+            Level(dimension, number_of_mines=1)
 
     def test_shouldnt_raise_assertion_error_when_number_of_mines_is_3_in_3x3_board(
         self,
@@ -40,11 +41,12 @@ class TestGeneratePositionOfMines:
         dimension = Dimension(3, 2)
         Level(dimension, number_of_mines=3)
 
-    def test_shouldnt_raise_assertion_error_when_number_of_mines_is_6_in_3x2_board(
+    def test_should_raise_assertion_error_when_number_of_mines_is_4_in_3x2_board(
         self,
     ):
-        dimension = Dimension(3, 2)
-        Level(dimension, number_of_mines=6)
+        with pytest.raises(AssertionError):
+            dimension = Dimension(3, 2)
+            Level(dimension, number_of_mines=6)
 
     def test_should_return_empty_array_when_input_is_0_in_1x1_board(self):
         dimension = Dimension(1, 1)
@@ -54,11 +56,13 @@ class TestGeneratePositionOfMines:
 
         assert result == set()
 
-    def test_should_return_1_position_array_when_input_is_1_in_1x1_board(self):
+    def test_should_return_1_position_array_when_input_is_1_in_2x1_board(self):
         expected = {Position(0, 0)}
-        dimension = Dimension(1, 1)
+        dimension = Dimension(2, 1)
+        randomizer = MockRandomizer()
+        randomizer.register_seed_value(0)
 
-        sut = Level(dimension, number_of_mines=1)
+        sut = Level(dimension, number_of_mines=1, _randomizer=randomizer)
         result = sut.generate_position_of_mines()
 
         assert result == expected
@@ -88,7 +92,7 @@ class TestGenerateEmptyLevel:
     def test_should_return_single_element_set_when_dimension_is_1x1(self):
         expected = {Position(0, 0)}
 
-        sut = Level(Dimension(1, 1), 1)
+        sut = Level(Dimension(1, 1), 0)
         result = sut.generate_empty_level()
 
         assert result == expected
@@ -96,7 +100,7 @@ class TestGenerateEmptyLevel:
     def test_should_return_2_element_set_when_dimension_is_2x1(self):
         expected = {Position(0, 0), Position(1, 0)}
 
-        sut = Level(Dimension(2, 1), 1)
+        sut = Level(Dimension(2, 1), 0)
         result = sut.generate_empty_level()
 
         assert result == expected
@@ -104,7 +108,7 @@ class TestGenerateEmptyLevel:
     def test_should_return_3_element_set_when_dimension_is_3x1(self):
         expected = {Position(0, 0), Position(1, 0), Position(2, 0)}
 
-        sut = Level(Dimension(3, 1), 1)
+        sut = Level(Dimension(3, 1), 0)
         result = sut.generate_empty_level()
 
         assert result == expected
@@ -117,7 +121,7 @@ class TestGenerateEmptyLevel:
             Position(1, 1),
         }
 
-        sut = Level(Dimension(2, 2), 1)
+        sut = Level(Dimension(2, 2), 0)
         result = sut.generate_empty_level()
 
         assert result == expected
@@ -132,7 +136,7 @@ class TestGenerateEmptyLevel:
             Position(2, 1),
         }
 
-        sut = Level(Dimension(3, 2), 1)
+        sut = Level(Dimension(3, 2), 0)
         result = sut.generate_empty_level()
 
         assert result == expected

@@ -12,7 +12,7 @@ class Level:
     _randomizer: Random = Random()
 
     def __post_init__(self):
-        assert self.number_of_mines <= self.dimension.get_number_of_cells()
+        assert self.number_of_mines <= self.dimension.get_number_of_cells() / 2
 
     def generate_empty_level(self):
         empty_level = set()
